@@ -1,7 +1,8 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
-" Add your plugins here, for example:
+" plugins:
 Plug 'lervag/vimtex'
+Plug 'SirVer/ultisnips'
 
 call plug#end()
 
@@ -10,3 +11,6 @@ let g:UltiSnipsJumpForwardTrigger  = '<Tab>'    " use Tab to move forward throug
 let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'  " use Shift-Tab to move backward through tabstops
 
 let g:UltiSnipsSnippetDirectories=[$HOME.'/.config/nvim/UltiSnips']
+
+" Use <leader>u in normal mode to refresh UltiSnips snippets
+nnoremap <leader>u <Cmd>call UltiSnips#RefreshSnippets()<CR>
