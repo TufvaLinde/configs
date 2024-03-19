@@ -3,6 +3,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 " plugins:
 Plug 'lervag/vimtex'
 Plug 'SirVer/ultisnips'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
 call plug#end()
 
