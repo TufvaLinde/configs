@@ -1,0 +1,39 @@
+# Python snippets. Type the trigger, then Tab. Tab / Shift-Tab jump between fields.
+
+snippet rprint "Rich: colourful print() for everything" b
+from rich import print
+endsnippet
+
+snippet rtrace "Rich: readable tracebacks with local variables" b
+from rich.traceback import install
+
+install(show_locals=True)
+endsnippet
+
+snippet rtable "Rich: print a table" b
+from rich.console import Console
+from rich.table import Table
+
+table = Table(title="${1:Title}")
+table.add_column("${2:Column}")
+table.add_row(${3:"value"})
+Console().print(table)
+endsnippet
+
+snippet rtrack "Rich: progress bar around a loop" b
+from rich.progress import track
+
+for ${1:item} in track(${2:items}, description="${3:Working...}"):
+	${0:pass}
+endsnippet
+
+snippet rinspect "Rich: inspect any object (methods, attributes, docs)" b
+from rich import inspect
+
+inspect(${1:obj}, methods=True)
+endsnippet
+
+snippet cell "New Jupyter cell" b
+# %%
+$0
+endsnippet

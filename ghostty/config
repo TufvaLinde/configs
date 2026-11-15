@@ -1,0 +1,28 @@
+# Ghostty config — managed by ~/code/configs
+# Docs: https://ghostty.org/docs/config   (list options: ghostty +show-config --default --docs)
+
+font-size = 14
+theme = CGA
+window-padding-x = 6
+window-padding-y = 4
+
+# Option keeps typing characters (on a Swedish keyboard Option+7 = |, Shift+Option+7 = \,
+# Option+8/9 = [ ], Shift+Option+8/9 = { }). Must be set explicitly: when unset,
+# Ghostty guesses from the keyboard layout and the guess can be wrong if U.S./ABC
+# layouts are also enabled — then \ arrives in nvim as Alt-/ and does nothing.
+macos-option-as-alt = false
+
+# Start in tmux automatically (uncomment once you're comfortable with tmux)
+# command = tmux new -A -s main
+
+# Scroll without Page Up/Down keys: Cmd+Shift+↑/↓ = one page, Cmd+Ctrl+Shift+↑/↓ = 3 lines
+# (Cmd+Option+arrows are kept for moving between splits, Ghostty's default)
+keybind = super+shift+arrow_up=scroll_page_up
+keybind = super+shift+arrow_down=scroll_page_down
+keybind = super+ctrl+shift+arrow_up=scroll_page_lines:-3
+keybind = super+ctrl+shift+arrow_down=scroll_page_lines:3
+keybind = super+alt+arrow_up=goto_split:up
+keybind = super+alt+arrow_down=goto_split:down
+
+# Make all splits equal size: Cmd+Ctrl+0 (the default Cmd+Ctrl+= is awkward on a Swedish keyboard)
+keybind = super+ctrl+0=equalize_splits

@@ -2,10 +2,10 @@
 " filetype (e.g. LaTeX-specific keymaps and text objects)
 
 " Use `<localleader>c` to trigger continuous compilation...
-nmap <localleader>c <Plug>(vimtex-compile)
+" nmap <localleader>c <Plug>(vimtex-compile)   (\ll already does this)
 
 " ...or single-shot compilation, if you prefer.
-nmap <localleader>c <Plug>(vimtex-compile-ss)
+" nmap <localleader>c <Plug>(vimtex-compile-ss)
 
 " Use `update` to ensure document is saved before single-shot compilation
 noremap <localleader>c <Cmd>update<CR><Cmd>VimtexCompileSS<CR>
@@ -23,5 +23,5 @@ let g:vimtex_quickfix_ignore_filters = [
       \ 'Package hyperref Warning: Token not allowed in a PDF string',
       \]
 
-" Define a custom shortcut to trigger VimtexView
-nmap <localleader>v <plug>(vimtex-view)
+" (View the PDF with vimtex's default \lv — a custom \v mapping here would
+" stop vimtex from creating \lv.)

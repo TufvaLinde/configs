@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+# texview — show a PDF inside the terminal with tdf. Called by vimtex on \lv.
+# tdf reloads by itself every time latexmk rewrites the PDF.
+#
+# Where the PDF pane opens:
+#   1. Ghostty on macOS → a native Ghostty split to the right. Images can't make
+#      it through tmux reliably (tdf never gets the terminal's reply), so we go
+#      around tmux and let Ghostty host the viewer directly.
+#   2. Otherwise inside tmux → a tmux pane (works in some terminals, e.g. kitty).
+#   3. Otherwise → print how to run tdf by hand.
+pdf="$1"
+[ -f "$pdf" ] || { echo "texview: no such file: $pdf" >&2; exit 1; }
+pdf="$(cd "$(dirname "$pdf")" && pwd)/$(basename "$pdf")"
+TDF="$(command -v tdf)" || { echo "texview: tdf is not installed (run install.sh)" >&2; exit 1; }
+
+# Already showing this PDF somewhere? Then don't open another viewer.
+if pgrep -f "tdf $pdf" >/dev/null 2>&1 || pgrep -f "tdf '$pdf'" >/dev/null 2>&1; then
+  exit 0
+fi
+
+if [ "$(uname -s)" = Darwin ] && { [ -n "$GHOSTTY_RESOURCES_DIR" ] || [ "$TERM_PROGRAM" = ghostty ]; }; then
+  osascript - "$TDF" "$pdf" <<'APPLESCRIPT' >/dev/null
+on run argv
+  set tdfPath to item 1 of argv
+  set pdfPath to item 2 of argv
+  tell application "Ghostty"
+    set cfg to new surface configuration
+    set command of cfg to tdfPath & " " & quoted form of pdfPath
+    set here to focused terminal of selected tab of front window
+    split here direction right with configuration cfg
+    focus here -- keep typing in nvim
+  end tell
+end run
+APPLESCRIPT
+  exit $?
+fi
+
+if [ -n "$TMUX" ]; then
+  tmux split-window -h -l 45% "$TDF '$pdf'"
+else
+  echo "texview: open a terminal tab and run: tdf '$pdf'" >&2
+fi
